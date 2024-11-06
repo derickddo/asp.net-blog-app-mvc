@@ -1,0 +1,19 @@
+﻿@model WebApplication1.Models.Blog
+@{
+    ViewData["Title"] = "ConfirmDeletePost";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-danger">Delete Post</h2>
+    <div class="alert alert-danger text-center mt-4 shadow-sm p-4 rounded">
+        <p class="mb-3">Are you sure you want to permanently delete this post?</p>
+        
+        <!-- Confirmation Buttons -->
+        <div class="d-flex justify-content-center">
+            <form asp-action="DeletePost" asp-route-id="@Model.Id" asp-controller="Post" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>
+            </form>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">No, Cancel</a>
+        </div>
+    </div>
+</div>

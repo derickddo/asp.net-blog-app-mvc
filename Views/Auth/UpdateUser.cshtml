@@ -1,0 +1,87 @@
+﻿@model WebApplication1.Models.User
+@{
+    ViewBag.Title = "Update User";
+}
+
+<div class="container my-5"> 
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Update Profile</h2>
+                    <form asp-action="UpdateUser" method="post">
+                        <div class="text-center mb-4">
+                            <div class="avatar-wrapper">
+                                <img id="avatarPreview" src="@Model.Avatar" alt="User Avatar" class="avatar-img rounded-circle mb-2" />
+                                <label for="Avatar" class="avatar-label">
+                                    <i class="fas fa-camera fa-2x"></i>
+                                    <span>Change Avatar</span>
+                                </label>
+                                <input type="file" id="Avatar" name="Avatar" class="d-none" accept="image/*" onchange="previewImage(event)">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="FirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="LastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+    .avatar-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border: 3px solid #007bff; /* Bootstrap primary color */
+    }
+    .avatar-label {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+    }
+    .avatar-label i {
+        color: #007bff; /* Bootstrap primary color */
+    }
+    .avatar-label span {
+        display: none;
+    }
+</style>
+
+<script>
+    function previewImage(event) {
+        const avatarPreview = document.getElementById('avatarPreview');
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                avatarPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+

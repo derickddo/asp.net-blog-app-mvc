@@ -1,0 +1,30 @@
+﻿@model WebApplication1.Models.Blog
+@{
+    ViewData["Title"] = "Post Detail";
+}
+
+@*Post image*@
+<div class="position-relative">
+    <!-- Full-width gradient overlay for better readability -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); z-index: 1;"></div>
+
+    <!-- Image with overlay effect -->
+    <img src="@Url.Content($"~/{Model.Image}")" class="d-block w-100" alt="@Model.Title" style="height: 250px; object-fit: cover;">
+
+    <!-- Content within the overlay -->
+    <div class="position-absolute container start-0 w-100 h-100 p-4" style="z-index: 2; color: #fff; bottom: 0;">
+        <h1>@Model.Title</h1>
+    </div>
+</div>
+<div class="container">
+    <p class="lead mt-5">@Model.Content</p>
+
+    @*Avatar*@
+    <div class="d-flex align-items-center mt-3">
+        @if (Model.Authour != null && !string.IsNullOrEmpty(Model.Authour.Avatar))
+        {
+            <img src="@Url.Content($"~/{Model.Authour.Avatar}")" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="avatar">
+        }
+        <small class="text-muted">@Model.Authour?.FirstName</small>
+    </div>
+</div>
