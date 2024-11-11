@@ -7,6 +7,7 @@ using WebApplication1.Services.UserService;
 using WebApplication1.Services.PostService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using WebApplication1.Services.FileService;
+using BlogApp.Services.UserService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,31 +15,34 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-7CHC0AK;Database=BlogDb;Trusted_Connection=True;TrustServerCertificate=True;")
 );
 
-/* Add Identity 
-    - AddIdentity<User, IdentityRole> adds the Identity services to the DI container
-    - AddEntityFrameworkStores<ApplicationDbContext> adds the EF Core stores for the Identity
-    - AddDefaultTokenProviders() adds the default token providers used to generate tokens for password reset, email confirmation, etc.
-    - RequireUniqueEmail = true ensures that each user has a unique email address
-*/
+// Add Authentication
+builder.Services.
+AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme
+    ).AddCookie(
+        CookieAuthenticationDefaults.AuthenticationScheme, options => {
+        options.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+        options.LogoutPath = "/Auth/Logout";
+    });
+
+// Add HttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+// Add Identity for User
 builder.Services.AddIdentity<User, IdentityRole>(
     // enable unique email
     options => options.User.RequireUniqueEmail = true
     )
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Auth/Login";
-        options.LogoutPath = "/Auth/Logout";
-    });
-
-
+    .AddDefaultTokenProviders()
+    .AddClaimsPrincipalFactory<CustomClaimsFactory>(); // Add custom claims factory
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPostService, PostService>();
@@ -63,6 +67,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

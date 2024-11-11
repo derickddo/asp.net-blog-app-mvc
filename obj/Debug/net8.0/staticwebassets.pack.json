@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\danso\\Desktop\\c#\\BlogApp\\wwwroot\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_519acb7f-5e69-404a-9dbd-a2df09bff219.jpg",
+      "PackagePath": "staticwebassets\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_519acb7f-5e69-404a-9dbd-a2df09bff219.jpg"
+    },
+    {
+      "Id": "C:\\Users\\danso\\Desktop\\c#\\BlogApp\\wwwroot\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_7c7d4f2c-b7eb-4dcd-b02c-90ac25c918ac.jpg",
+      "PackagePath": "staticwebassets\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_7c7d4f2c-b7eb-4dcd-b02c-90ac25c918ac.jpg"
+    },
+    {
       "Id": "C:\\Users\\danso\\Desktop\\c#\\BlogApp\\wwwroot\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_9123a8e2-e125-4e4e-bb3a-f19f43a1c335.jpg",
       "PackagePath": "staticwebassets\\img\\alexandre-debieve-FO7JIlwjOtU-unsplash_9123a8e2-e125-4e4e-bb3a-f19f43a1c335.jpg"
     },

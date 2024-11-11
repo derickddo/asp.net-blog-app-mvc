@@ -8,6 +8,7 @@ using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using BlogApp.ViewModels;
 
 
 namespace WebApplication1.Controllers
@@ -112,38 +113,6 @@ namespace WebApplication1.Controllers
 
                     if (succeeded)
                     {   
-                        // get the user by email
-                        var user = await _userService.GetUserByEmailAsync(model.Email);
-
-                        // create a list of claims
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, user.UserName!),
-                            new Claim(ClaimTypes.Email, user.Email!),
-                            new Claim(ClaimTypes.GivenName, user.FirstName),
-                            new Claim(ClaimTypes.Surname, user.LastName),
-                            new Claim(ClaimTypes.NameIdentifier, user.Id),
-                            new Claim("Avatar", user.Avatar)
-                        };
-
-                        // create a claims identity
-                        var claimsIdentity = new ClaimsIdentity(
-                            claims, 
-                            CookieAuthenticationDefaults.AuthenticationScheme
-                        );
-
-                        // create authentication properties
-                        var authProperties = new AuthenticationProperties
-                        {
-                            IsPersistent = true
-                        };
-
-                        // sign in the user
-                        await HttpContext.SignInAsync(
-                            CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), 
-                            authProperties
-                        );
-
                         // Redirect to the return url
                         return LocalRedirect(returnUrl);
                     }
@@ -168,37 +137,29 @@ namespace WebApplication1.Controllers
         }
 
         public async Task<IActionResult> UpdateUser(string id)
-        {
+        {   
             var user = await _userService.GetUserByIdAsync(id);
             return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser()
-        {   
-            var formData = HttpContext.Request.Form;
-            var user = new User
+        public async Task<IActionResult> UpdateUser(string id, User user)
+
+        {   // get the avatar from the form
+            var avatar = Request.Form.Files["Avatar"] ?? null;
+
+            var updateUser = new UserUpdateViewModel
             {
-                
-                UserName = formData["UserName"]!,
-                Email = formData["Email"]!,
-                FirstName = formData["FirstName"]!,
-                LastName = formData["LastName"]!,
-                Avatar = formData["Avatar"]!
-            }; 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var updatedUser = await _userService.UpdateUserAsync(user);
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
-            return View(user);
+                Id = id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                Avatar = avatar
+            };
+
+            var updatedUser = await _userService.UpdateUserAsync(updateUser, id);
+            return RedirectToAction("Auth", "UpdateUser", new { id = updatedUser.Id });
         }
     }
 }

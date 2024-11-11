@@ -4,7 +4,7 @@
 }
 
  @*Carousel*@
-<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5" data-bs-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide w-100 mb-2" data-bs-ride="carousel">
     <div class="carousel-inner">
         @for (int i = 0; i < Model.Count; i++)
         {
@@ -12,8 +12,8 @@
                 <!-- Full-width gradient overlay for better readability -->
                 <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); z-index: 1;"></div>
                 
-                <!-- Image with overlay effect -->
-                <img src="@Model[i].Image" class="d-block w-100" alt="@Model[i].Title" style="height: 500px; object-fit: cover;">
+                <!-- Image with overlay effect and adjusted height -->
+                <img src="@Model[i].Image" class="d-block w-100" alt="@Model[i].Title" style="height: 350px; object-fit: cover;">
                 
                 <!-- Content within the overlay -->
                 <div class="carousel-caption d-flex flex-column align-items-start justify-content-center text-start p-4" style="z-index: 2; color: #fff;">
@@ -35,8 +35,11 @@
 </div>
 
 
-<div class="container my-5">
-    <div class="row g-4">
+
+<div class="container my-4">
+    <h3 class="">Latest Posts</h3>
+    <span class="text-muted mb-4">Showing @Model.Count posts</span>
+    <div class="row g-4 mt-2">
         @foreach (var post in Model)
         {
             <div class="col-md-4">

@@ -292,3 +292,4 @@ C:\Users\danso\Desktop\c#\BlogApp\obj\Debug\net8.0\refint\BlogApp.dll
 C:\Users\danso\Desktop\c#\BlogApp\obj\Debug\net8.0\BlogApp.pdb
 C:\Users\danso\Desktop\c#\BlogApp\obj\Debug\net8.0\BlogApp.genruntimeconfig.cache
 C:\Users\danso\Desktop\c#\BlogApp\obj\Debug\net8.0\ref\BlogApp.dll
+C:\Users\danso\Desktop\c#\BlogApp\obj\Debug\net8.0\BlogApp.sourcelink.json

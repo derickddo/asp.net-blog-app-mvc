@@ -1,4 +1,7 @@
 ﻿@using System.Security.Claims;
+@using BlogApp.Services.UserService
+@using BlogApp.Extentions
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,9 +44,9 @@
                     <div class="dropdown">
                         <button class="btn d-flex align-items-center" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <!-- Profile Avatar -->
-                            <img src="~/img/user.png" class="rounded-circle me-2" style="width: 35px; height: 35px; object-fit: cover;" alt="avatar">
+                            <img src="@Url.Content($"~/{User.GetAvatar()}")" class="rounded-circle me-2" style="width: 35px; height: 35px; object-fit: cover;" alt="avatar">
                             <!-- First name -->
-                            <span>@User.FindFirstValue(ClaimTypes.Name)</span>
+                            <span>@User.GetFirstName()</span>
 
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">

@@ -1,30 +1,38 @@
 ﻿@model WebApplication1.Models.Blog
 @{
     ViewData["Title"] = "Post Detail";
+    var author = ViewBag.Author;
 }
 
-@*Post image*@
-<div class="position-relative">
+<!-- Post Image with Overlay and Title -->
+<div class="position-relative mb-5">
     <!-- Full-width gradient overlay for better readability -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); z-index: 1;"></div>
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)); z-index: 1;"></div>
 
     <!-- Image with overlay effect -->
-    <img src="@Url.Content($"~/{Model.Image}")" class="d-block w-100" alt="@Model.Title" style="height: 250px; object-fit: cover;">
+    <img src="@Url.Content($"~/{Model.Image}")" class="d-block w-100 rounded" alt="@Model.Title" style="height: 400px; object-fit: cover; filter: brightness(0.85);">
 
-    <!-- Content within the overlay -->
-    <div class="position-absolute container start-0 w-100 h-100 p-4" style="z-index: 2; color: #fff; bottom: 0;">
-        <h1>@Model.Title</h1>
+    <!-- Title within the overlay -->
+    <div class="position-absolute end-10 bottom-0 p-4 text-white" style="z-index: 2; width: 80%;">
+        <h1 class="display-4 fw-bold">@Model.Title</h1>
     </div>
-</div>
-<div class="container">
-    <p class="lead mt-5">@Model.Content</p>
 
-    @*Avatar*@
-    <div class="d-flex align-items-center mt-3">
-        @if (Model.Authour != null && !string.IsNullOrEmpty(Model.Authour.Avatar))
+</div>
+
+<div class="container">
+    <!-- Post Content -->
+    <p class="lead mt-4">@Model.Content</p>
+
+    <!-- Author Section -->
+    <div class="d-flex align-items-center mt-4">
+        @if (Model.Authour != null)
         {
-            <img src="@Url.Content($"~/{Model.Authour.Avatar}")" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="avatar">
+            <img src="@Url.Content($"~/{ViewBag["Authour"].Avatar}")" class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;" alt="Author avatar">
+            
         }
-        <small class="text-muted">@Model.Authour?.FirstName</small>
+        <div>
+            <small class="fw-semibold text-dark">@Model.Authour?.FirstName @Model.Authour?.LastName</small><br>
+            <small class="text-muted">Posted on @Model.CreatedAt.ToString("MMMM dd, yyyy")</small>
+        </div>
     </div>
 </div>

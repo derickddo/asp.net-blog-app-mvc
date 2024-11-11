@@ -1,4 +1,5 @@
 ﻿@model WebApplication1.Models.User
+ 
 @{
     ViewBag.Title = "Update User";
 }
@@ -9,10 +10,10 @@
             <div class="card shadow-lg border-0 rounded-4">
                 <div class="card-body p-4">
                     <h2 class="text-center mb-4">Update Profile</h2>
-                    <form asp-action="UpdateUser" method="post">
+                    <form asp-controller="Auth" asp-action="UpdateUser" method="post" asp-route-id="@Model.Id" enctype="multipart/form-data">
                         <div class="text-center mb-4">
                             <div class="avatar-wrapper">
-                                <img id="avatarPreview" src="@Model.Avatar" alt="User Avatar" class="avatar-img rounded-circle mb-2" />
+                                <img id="avatarPreview" src="@Url.Content($"~/{Model.Avatar}")" alt="User Avatar" class="avatar-img rounded-circle mb-2" />
                                 <label for="Avatar" class="avatar-label">
                                     <i class="fas fa-camera fa-2x"></i>
                                     <span>Change Avatar</span>
@@ -32,6 +33,12 @@
                         <div class="mb-3">
                             <label for="Email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
+                        </div>
+
+                        @*username*@
+                        <div class="mb-3">
+                            <label for="Username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Update</button>

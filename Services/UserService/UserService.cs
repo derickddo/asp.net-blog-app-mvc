@@ -1,7 +1,9 @@
 using System;
+using BlogApp.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using WebApplication1.Data;
 using WebApplication1.Models;
+using WebApplication1.Services.FileService;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Services.UserService;
@@ -11,16 +13,19 @@ public class UserService : IUserService
     private readonly ApplicationDbContext _context;
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
+    private readonly IFileService _fileService;
 
     public UserService(
         ApplicationDbContext context,
         SignInManager<User> signInManager,
-        UserManager<User> userManager
+        UserManager<User> userManager,
+        IFileService fileService
     )
     {
         _context = context;
         _signInManager = signInManager;
         _userManager = userManager;
+        _fileService = fileService;
     }
 
 
@@ -35,7 +40,8 @@ public class UserService : IUserService
         //sign in user
         var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
         if (result.Succeeded)
-        {
+        {   
+            
             return (true, "");
         }
         else
@@ -85,17 +91,29 @@ public class UserService : IUserService
         return _signInManager.SignOutAsync();
     }
 
-    public async Task<User> UpdateUserAsync(User user)
+    public async Task<User> UpdateUserAsync(UserUpdateViewModel user, string id)
     {
-        var result = await _userManager.UpdateAsync(user);
-        if (result.Succeeded)
+        var userToUpdate = await _userManager.FindByIdAsync(id);
+        if (userToUpdate == null)
         {
-            return user;
+            throw new Exception("User not found");
         }
-        else
+
+        userToUpdate.FirstName = user.FirstName!;
+        userToUpdate.LastName = user.LastName!;
+        userToUpdate.Email = user.Email;
+        userToUpdate.UserName = user.UserName;
+    
+        // check if the avatar has changed
+        var updateAvatar = await _fileService.UpdateFileAsync(userToUpdate.Avatar, user.Avatar!);
+
+        if (!string.IsNullOrEmpty(updateAvatar))
         {
-            throw new Exception("Failed to update user");
+            userToUpdate.Avatar = updateAvatar;
         }
+
+        await _userManager.UpdateAsync(userToUpdate);
+        return userToUpdate;
     }
 
     public async Task<User> GetUserByEmailAsync(string email)

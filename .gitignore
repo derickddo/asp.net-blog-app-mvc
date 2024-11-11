@@ -4,3 +4,4 @@ appsettings.json
 .idea
 .DS_Store
 bin
+appsettings.Development.json

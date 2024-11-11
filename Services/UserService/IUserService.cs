@@ -1,4 +1,5 @@
 using System;
+using BlogApp.ViewModels;
 using WebApplication1.Models;
 using WebApplication1.ViewModels;
 
@@ -18,6 +19,6 @@ public interface IUserService
     // logout method
     Task LogoutUserAsync();
 
-    Task<User> UpdateUserAsync(User user);
+    Task<User> UpdateUserAsync(UserUpdateViewModel user, string id);
     Task<User> GetUserByEmailAsync(string email);
 }

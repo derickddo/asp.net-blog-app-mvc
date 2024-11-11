@@ -78,6 +78,8 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
+            var authour = blog.Authour != null ? await _userService.GetUserByIdAsync(blog.Authour.Id) : new User();
+            ViewBag.Authour = authour;
             return View(blog);
         }
 
